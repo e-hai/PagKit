@@ -108,7 +108,7 @@ dependencyResolutionManagement {
 kotlin {
     sourceSets {
         commonMain.dependencies {
-            implementation("io.github.e-hai:pagkit:0.1.0")
+            implementation("io.github.e-hai:pagkit:0.1.3")
         }
     }
 }

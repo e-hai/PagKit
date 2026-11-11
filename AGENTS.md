@@ -37,7 +37,9 @@ PagKit/
 │       │   │   └── PagDiskCache.kt            # expect object PagDiskCache
 │       │   └── model/
 │       │       ├── PagTypes.kt                # PagSource, PagScaleMode, PagLayerType
-│       │       └── PagTextData.kt             # Cross-platform text editing data class
+│       │       ├── PagTextData.kt             # Cross-platform text editing data class
+│       │       ├── PagMarker.kt               # Timeline cue point marker (startTimeUs, durationUs, comment)
+│       │       └── PagFont.kt                 # expect class PagFont (custom TTF/OTF registration)
 │       ├── androidMain/kotlin/io/github/pagkit/
 │       │   ├── compose/PagView.android.kt     # AndroidView + org.libpag.PAGView / PAGImageView
 │       │   ├── composition/*.android.kt       # JNI wrappers
@@ -202,7 +204,7 @@ kotlin {
 
     sourceSets {
         commonMain.dependencies {
-            implementation("io.github.e-hai:pagkit:0.1.1")
+            implementation("io.github.e-hai:pagkit:0.1.3")
         }
     }
 }
