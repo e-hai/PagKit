@@ -40,8 +40,14 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH_VERSION: ${{ github.event.inputs.version }}
         run: |
-          if [ -n "$PUBLISH_VERSION" ]; then
-            ./gradlew :pagkit:publishAllPublicationsToGitHubPackagesRepository -Pversion="$PUBLISH_VERSION"
+          VERSION="${{ github.event.inputs.version }}"
+          if [ -z "$VERSION" ] && [ "${{ github.ref_type }}" = "tag" ]; then
+            TAG="${{ github.ref_name }}"
+            VERSION="${TAG#v}"
+          fi
+          if [ -n "$VERSION" ]; then
+            echo "Publishing version: $VERSION"
+            ./gradlew :pagkit:publishAllPublicationsToGitHubPackagesRepository -Pversion="$VERSION"
           else
             ./gradlew :pagkit:publishAllPublicationsToGitHubPackagesRepository
           fi
