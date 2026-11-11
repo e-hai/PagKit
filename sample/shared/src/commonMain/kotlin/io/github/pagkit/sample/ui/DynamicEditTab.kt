@@ -293,5 +293,22 @@ fun DynamicEditTab() {
                 Text("重置模板")
             }
         }
+
+        Spacer(modifier = Modifier.height(8.dp))
+
+        OutlinedButton(
+            modifier = Modifier.fillMaxWidth(),
+            onClick = {
+                val file = currentFile ?: return@OutlinedButton
+                val decoder = io.github.pagkit.composition.PagDecoder.make(file)
+                if (decoder != null) {
+                    statusMessage = "PagDecoder 测试通过: 共 ${decoder.numFrames} 帧, 尺寸 ${decoder.width}x${decoder.height}, 帧率 ${decoder.frameRate}fps"
+                } else {
+                    statusMessage = "PagDecoder.make 失败"
+                }
+            }
+        ) {
+            Text("离线解码分析 (PagDecoder)")
+        }
     }
 }
