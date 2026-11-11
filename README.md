@@ -72,7 +72,28 @@ flowchart TD
 
 ---
 
-## 📦 接入指南
+## 📢 迁移公告：从 JitPack 迁移至 GitHub Packages
+
+> [!IMPORTANT]
+> **请所有开发者统一迁移至 GitHub Packages 依赖源**。
+> 
+> **为什么要废弃 JitPack 迁移至 GitHub Packages？**
+> 1. **全平台双端完整性**：JitPack 仅提供 Linux Docker 构建环境，**无法编译 Apple Clang / Metal `cinterop` 及 iOS 平台产物**（`iosArm64`, `iosSimulatorArm64`），导致从 JitPack 获取的 KMP 包缺少 iOS 的 klib 无法在 iOS 端正常编译；
+> 2. **macOS-15 CI 官方直出**：GitHub Packages 由 GitHub Actions 原生 `macos-15` 构建机统一产出，同时包含 Android Release AAR 与 iOS 双架构 klib；
+> 3. **版本更稳定，告别动态编译等待**：JitPack 首次拉取需要排队现场编译经常超时，GitHub Packages 发布即就绪，CDN 加速分发。
+
+### 迁移对照清单 (Before vs After)
+
+| 配置项 | 旧方案 (JitPack - 已停用) | 新方案 (GitHub Packages - 推荐) |
+| :--- | :--- | :--- |
+| **Maven 仓库源** | `maven { url = uri("https://jitpack.io") }` | `maven { url = uri("https://maven.pkg.github.com/e-hai/PagKit") ... }` |
+| **依赖坐标** | `com.github.e-hai:PagKit:v0.1.x` | `io.github.e-hai:pagkit:0.1.3` |
+| **iOS 端支持** | ❌ 缺失 iOS klib 产物 | ✅ 包含完整 `iosArm64` / `iosSimulatorArm64` |
+| **构建机制** | 远程 Linux 现场触发（易超时） | 预先自动化验证后发布（开箱即用） |
+
+---
+
+## 📦 接入指南 (GitHub Packages)
 
 ### 1. 添加 Maven 仓库配置
 

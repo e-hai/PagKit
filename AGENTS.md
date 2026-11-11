@@ -171,6 +171,10 @@ xcodebuild -project iosApp.xcodeproj -scheme iosApp -destination 'platform=iOS S
 
 ## 7. How an AI Agent Should Integrate & Consume PagKit in Downstream Projects
 
+> **CRITICAL ARCHITECTURAL DIRECTIVE: Deprecation of JitPack in Favor of GitHub Packages**
+> - **Why JitPack is Prohibited**: JitPack builds in a Linux Docker environment that **lacks Apple clang and Xcode**, rendering it fundamentally incapable of producing iOS klibs (`iosArm64`, `iosSimulatorArm64`) or compiling Kotlin/Native `cinterop`. Any consumer project depending on JitPack will fail with unresolved symbols on iOS.
+> - **The Migration Rule**: If you detect legacy references like `https://jitpack.io` or `com.github.e-hai:PagKit`, **immediately migrate** them to GitHub Packages (`https://maven.pkg.github.com/e-hai/PagKit`) with coordinate `io.github.e-hai:pagkit:0.1.3`.
+
 When you (an AI Agent) are tasked with integrating **PagKit** into an external KMP / Compose Multiplatform project, strictly follow this step-by-step procedure.
 
 ### Step 1: Configure Maven Repository (`settings.gradle.kts`)
