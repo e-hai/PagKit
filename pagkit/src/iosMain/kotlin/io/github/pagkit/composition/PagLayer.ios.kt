@@ -3,6 +3,7 @@
 package io.github.pagkit.composition
 
 import io.github.pagkit.model.PagLayerType
+import io.github.pagkit.model.PagMarker
 import org.libpag.ios.PAGLayer
 import org.libpag.ios.PAGLayerType as NativePAGLayerType
 import platform.CoreGraphics.CGAffineTransformRotate
@@ -36,6 +37,19 @@ actual open class PagLayer internal constructor(internal val nativeLayer: PAGLay
 
     actual val layerName: String
         get() = nativeLayer.layerName() ?: ""
+
+    @Suppress("UNCHECKED_CAST")
+    actual val markers: List<PagMarker>
+        get() {
+            val list = nativeLayer.markers() as? List<org.libpag.ios.PAGMarker> ?: return emptyList()
+            return list.map {
+                PagMarker(
+                    startTimeUs = it.startTime,
+                    durationUs = it.duration,
+                    comment = it.comment ?: ""
+                )
+            }
+        }
 
     actual val editableIndex: Int
         get() = nativeLayer.editableIndex().toInt()

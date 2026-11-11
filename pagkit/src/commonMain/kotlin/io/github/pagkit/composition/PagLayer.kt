@@ -1,6 +1,7 @@
 package io.github.pagkit.composition
 
 import io.github.pagkit.model.PagLayerType
+import io.github.pagkit.model.PagMarker
 
 /**
  * 跨平台 PAG 基础图层封装。
@@ -11,6 +12,9 @@ expect open class PagLayer {
 
     /** 图层名称 */
     val layerName: String
+
+    /** 图层时间轴标记点列表 */
+    val markers: List<PagMarker>
 
     /** 可编辑索引（若不可编辑则为 -1） */
     val editableIndex: Int

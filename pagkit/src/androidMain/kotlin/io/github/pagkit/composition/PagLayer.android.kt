@@ -2,6 +2,7 @@ package io.github.pagkit.composition
 
 import android.graphics.Matrix
 import io.github.pagkit.model.PagLayerType
+import io.github.pagkit.model.PagMarker
 import org.libpag.PAGLayer
 
 actual open class PagLayer internal constructor(internal val nativeLayer: PAGLayer) {
@@ -10,6 +11,18 @@ actual open class PagLayer internal constructor(internal val nativeLayer: PAGLay
 
     actual val layerName: String
         get() = nativeLayer.layerName() ?: ""
+
+    actual val markers: List<PagMarker>
+        get() {
+            val arr = nativeLayer.markers() ?: return emptyList()
+            return arr.map {
+                PagMarker(
+                    startTimeUs = it.mStartTime,
+                    durationUs = it.mDuration,
+                    comment = it.mComment ?: ""
+                )
+            }
+        }
 
     actual val editableIndex: Int
         get() = nativeLayer.editableIndex()
