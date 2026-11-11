@@ -118,4 +118,21 @@ class PagKitTest {
         state.flush()
         assertTrue(flushCalled)
     }
+
+    @Test
+    fun testPagSourceEquality() {
+        val s1 = PagSource.Asset("anim.pag")
+        val s2 = PagSource.Asset("anim.pag")
+        val s3 = PagSource.Asset("other.pag")
+        assertEquals(s1, s2)
+        assertTrue(s1 != s3)
+
+        val u1 = PagSource.Url("https://example.com/test.pag")
+        val u2 = PagSource.Url("https://example.com/test.pag")
+        assertEquals(u1, u2)
+
+        val b1 = PagSource.Bytes(byteArrayOf(1, 2, 3))
+        val b2 = PagSource.Bytes(byteArrayOf(1, 2, 3))
+        assertEquals(b1, b2)
+    }
 }
