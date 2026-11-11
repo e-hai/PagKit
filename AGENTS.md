@@ -250,14 +250,16 @@ import io.github.pagkit.compose.PagView
 import io.github.pagkit.compose.rememberPagState
 import io.github.pagkit.model.PagScaleMode
 import io.github.pagkit.model.PagSource
+// When using Compose Resources (e.g. commonMain/composeResources/files/my_anim.pag):
+// import your.project.package.generated.resources.Res
 
 @Composable
 fun SimplePagPlayer(pagBytes: ByteArray?) {
-    // Law: Always use rememberPagState; it safely re-syncs when pagBytes changes
+    // Law: Always use rememberPagState; it safely re-syncs when pagBytes changes from null to ByteArray
     val state = rememberPagState(
         source = pagBytes?.let { PagSource.Bytes(it) },
         autoPlay = true,
-        repeatCount = 0, // 0 = infinite, 1 = play once
+        repeatCount = 0, // 0 = infinite loop, 1 = play once
         scaleMode = PagScaleMode.LetterBox
     )
 
@@ -268,6 +270,11 @@ fun SimplePagPlayer(pagBytes: ByteArray?) {
         onAnimationEnd = { /* ... */ }
     )
 }
+
+// Typical usage with Compose Resources in parent Composable:
+// var bytes by remember { mutableStateOf<ByteArray?>(null) }
+// LaunchedEffect(Unit) { bytes = Res.readBytes("files/my_anim.pag") }
+// SimplePagPlayer(bytes)
 ```
 
 ### Recipe B: Imperative Playback Controls
