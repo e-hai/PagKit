@@ -1,0 +1,42 @@
+# macOS
+.DS_Store
+*.swp
+*~
+
+# IDEs
+.idea/
+.vscode/
+*.iml
+
+# Android & Gradle
+.gradle/
+build/
+*.hprof
+
+# iOS & Xcode & Swift
+DerivedData/
+.build/
+.swiftpm/
+Package.resolved
+xcuserdata/
+*.xcworkspace/xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcscmblueprint
+*.xcuserstate
+*.dSYM/
+*.dSYM
+
+# Secrets & Local Configs
+local.properties
+keystore.properties
+config/prod.properties
+Secrets.swift
+*.p8
+*.mobileprovision
+*.cer
+*.key
+*.jks
+*.keystore
+
+# Kotlin Multiplatform
+.kotlin/

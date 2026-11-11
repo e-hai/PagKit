@@ -1,0 +1,55 @@
+name: iosApp
+options:
+  bundleIdPrefix: io.github.pagkit.sample
+  deploymentTarget:
+    iOS: "16.0"
+  xcodeVersion: "16.0"
+
+targets:
+  iosApp:
+    type: application
+    platform: iOS
+    sources:
+      - iosApp
+    info:
+      path: iosApp/Info.plist
+      properties:
+        CADisableMinimumFrameDurationOnPhone: true
+        UILaunchScreen: {}
+        NSAppTransportSecurity:
+          NSAllowsArbitraryLoads: true
+    dependencies:
+      - framework: ../../pagkit/libpag-ios/libpag.xcframework
+        embed: true
+    preBuildScripts:
+      - name: Compile Kotlin Framework
+        basedOnDependencyAnalysis: false
+        script: |
+          cd "$SRCROOT/../.."
+          ./gradlew :sample:shared:embedAndSignAppleFrameworkForXcode
+    postBuildScripts:
+      - name: Embed Compose Resources
+        basedOnDependencyAnalysis: false
+        script: |
+          mkdir -p "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/compose-resources"
+          if [ -d "${SRCROOT}/../shared/build/generated/compose/resourceGenerator/assembledResources/iosSimulatorArm64Main" ]; then
+            cp -R "${SRCROOT}/../shared/build/generated/compose/resourceGenerator/assembledResources/iosSimulatorArm64Main/"* "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/compose-resources/" 2>/dev/null || true
+          fi
+          if [ -d "${SRCROOT}/../shared/build/generated/compose/resourceGenerator/assembledResources/iosArm64Main" ]; then
+            cp -R "${SRCROOT}/../shared/build/generated/compose/resourceGenerator/assembledResources/iosArm64Main/"* "${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/compose-resources/" 2>/dev/null || true
+          fi
+    settings:
+      base:
+        CODE_SIGN_STYLE: Automatic
+        ENABLE_USER_SCRIPT_SANDBOXING: "NO"
+        ONLY_ACTIVE_ARCH: YES
+        PRODUCT_BUNDLE_IDENTIFIER: io.github.pagkit.sample.ios
+        FRAMEWORK_SEARCH_PATHS:
+          - $(inherited)
+          - $(SRCROOT)/../shared/build/xcode-frameworks/$(CONFIGURATION)/$(SDK_NAME)
+          - $(SRCROOT)/../shared/build/bin/iosSimulatorArm64/debugFramework
+          - $(SRCROOT)/../shared/build/bin/iosArm64/debugFramework
+        OTHER_LDFLAGS:
+          - $(inherited)
+          - -framework
+          - Shared

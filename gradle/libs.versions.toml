@@ -1,0 +1,53 @@
+[versions]
+# SDK & Tooling
+compileSdk = "35"
+minSdk = "24"
+targetSdk = "34"
+
+# Gradle Plugins & Core Tooling (Aligned with Architecture project)
+androidGradlePlugin = "9.3.1"
+kotlin = "2.3.21"
+composeMultiplatform = "1.8.0"
+
+# AndroidX Base
+androidxActivity = "1.10.1"
+androidxCore = "1.15.0"
+androidxLifecycle = "2.9.0"
+
+# Kotlinx
+kotlinxCoroutines = "1.11.0"
+
+# Libpag
+libpag = "4.5.102"
+
+# Ktor
+ktor = "3.1.1"
+
+[libraries]
+# AndroidX
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivity" }
+androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidxCore" }
+
+# Kotlinx
+kotlinx-coroutines-core = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutines" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
+
+# Ktor for networking
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-client-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
+ktor-client-darwin = { group = "io.ktor", name = "ktor-client-darwin", version.ref = "ktor" }
+
+# Libpag Android
+libpag-android = { group = "com.tencent.tav", name = "libpag", version.ref = "libpag" }
+
+# Test
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "androidGradlePlugin" }
+android-library = { id = "com.android.library", version.ref = "androidGradlePlugin" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+compose-multiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
