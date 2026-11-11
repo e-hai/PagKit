@@ -6,6 +6,10 @@ plugins {
 }
 
 kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
+
     androidTarget()
     listOf(iosArm64(), iosSimulatorArm64()).forEach {
         it.binaries.framework {

@@ -12,6 +12,10 @@ version = project.findProperty("version")?.toString()?.takeIf { it != "unspecifi
 val xcframeworkPath = file("libpag-ios/libpag.xcframework")
 
 kotlin {
+    compilerOptions {
+        freeCompilerArgs.add("-Xexpect-actual-classes")
+    }
+
     androidTarget {
         compilerOptions {
             jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
