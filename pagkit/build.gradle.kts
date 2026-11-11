@@ -3,7 +3,11 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.compose.multiplatform)
     alias(libs.plugins.kotlin.compose)
+    `maven-publish`
 }
+
+group = "io.github.e-hai"
+version = project.findProperty("version")?.toString()?.takeIf { it != "unspecified" } ?: "0.1.0"
 
 val xcframeworkPath = file("libpag-ios/libpag.xcframework")
 
@@ -84,5 +88,24 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
+    }
+
+    publishing {
+        singleVariant("release") {
+            withSourcesJar()
+        }
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/e-hai/PagKit")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR") ?: "e-hai"
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
     }
 }

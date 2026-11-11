@@ -54,6 +54,44 @@ PagKit/
 
 ---
 
+## 📦 安装与引入 (GitHub Packages)
+
+### 1. 配置 Maven 仓库
+
+在你的根目录 `settings.gradle.kts` 中添加 GitHub Packages Maven 源：
+
+```kotlin
+dependencyResolutionManagement {
+    repositories {
+        google()
+        mavenCentral()
+        maven {
+            url = uri("https://maven.pkg.github.com/e-hai/PagKit")
+            credentials {
+                username = project.findProperty("gpr.user") as String? ?: System.getenv("GITHUB_ACTOR") ?: "e-hai"
+                password = project.findProperty("gpr.key") as String? ?: System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
+}
+```
+
+### 2. 引入依赖
+
+在业务模块的 `build.gradle.kts` 中添加：
+
+```kotlin
+kotlin {
+    sourceSets {
+        commonMain.dependencies {
+            implementation("io.github.e-hai:pagkit:0.1.0")
+        }
+    }
+}
+```
+
+---
+
 ## 💻 快速开始
 
 ### 1. 基础播放控制 (`PagView`)
@@ -208,4 +246,24 @@ fun FastListDemo(urls: List<String>) {
 cd sample/iosApp
 xcodegen generate
 xcodebuild -project iosApp.xcodeproj -scheme iosApp -destination 'generic/platform=iOS Simulator' build CODE_SIGNING_ALLOWED=NO
+```
+
+---
+
+## 🚀 发布到 GitHub Packages
+
+### 方式一：GitHub Actions 自动化发布（推荐）
+
+直接为项目打上版本 Tag 并推送至 GitHub：
+```bash
+git tag v0.1.0
+git push origin v0.1.0
+```
+或前往 GitHub 仓库的 **Actions** -> **Publish to GitHub Packages** 点击 **Run workflow** 手动触发。CI 将自动构建全平台 Publication（包含 Android Release AAR、iOS arm64 / simulator klib、通用 metadata）并发布到 GitHub Packages。
+
+### 方式二：本地命令行发布
+
+配置具有 `write:packages` 权限的 GitHub Personal Access Token：
+```bash
+GITHUB_TOKEN=ghp_your_token ./gradlew :pagkit:publishAllPublicationsToGitHubPackagesRepository
 ```
