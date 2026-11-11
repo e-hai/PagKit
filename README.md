@@ -288,6 +288,23 @@ fun FastListDemo(urls: List<String>) {
 
 ---
 
+### 5. 离线序列帧解码 (`PagDecoder`)
+
+用于视频合成、封面缩略图提取或自定义画布离线渲染：
+
+```kotlin
+val pagFile = PagFile.loadFromBytes(pagBytes) ?: return
+val decoder = PagDecoder.make(pagFile) ?: return
+
+println("帧数: ${decoder.numFrames}, 尺寸: ${decoder.width}x${decoder.height}, 帧率: ${decoder.frameRate}")
+
+// 逐帧解码（在各平台通过平台扩展方法获取原生图片）
+// Android: val bitmap = decoder.frameAtIndex(0)
+// iOS: val uiImage = decoder.frameAtIndex(0)
+```
+
+---
+
 ## 🛠️ 本地构建与验证
 
 ### 1. 跨平台单元测试

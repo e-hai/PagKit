@@ -31,7 +31,8 @@ PagKit/
 │       │   │   ├── PagComposition.kt          # expect class PagComposition
 │       │   │   ├── PagFile.kt                 # expect class PagFile
 │       │   │   ├── PagLayer.kt                # expect open class PagLayer
-│       │   │   └── PagImage.kt                # expect class PagImage
+│       │   │   ├── PagImage.kt                # expect class PagImage
+│       │   │   └── PagDecoder.kt              # expect class PagDecoder
 │       │   ├── cache/
 │       │   │   └── PagDiskCache.kt            # expect object PagDiskCache
 │       │   └── model/
