@@ -97,6 +97,11 @@ fun BasicPlaybackTab() {
                 PagView(
                     state = pagState,
                     modifier = Modifier.fillMaxSize(),
+                    onCompositionLoaded = { file ->
+                        val markerInfo = if (file.markers.isNotEmpty()) "${file.markers.size} 个 Markers" else "无 Marker"
+                        val audioInfo = if (file.audioBytes() != null) "含伴音" else "无伴音"
+                        addLog(">> 动效就绪: 时长 ${file.durationUs / 1000}ms, $markerInfo, $audioInfo")
+                    },
                     onAnimationStart = { addLog(">> onAnimationStart") },
                     onAnimationEnd = { addLog(">> onAnimationEnd") },
                     onAnimationCancel = { addLog(">> onAnimationCancel") },
