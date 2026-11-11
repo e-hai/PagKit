@@ -61,6 +61,18 @@ actual open class PagComposition internal constructor(
         return layers.map { PagLayer(it) }
     }
 
+    actual fun audioBytes(): ByteArray? {
+        val buffer = nativeComposition.audioBytes() ?: return null
+        val dup = buffer.duplicate()
+        val bytes = ByteArray(dup.remaining())
+        dup.get(bytes)
+        return bytes
+    }
+
+    actual fun audioStartTime(): Long {
+        return nativeComposition.audioStartTime()
+    }
+
     actual companion object {
         actual fun make(width: Int, height: Int): PagComposition {
             val comp = PAGComposition.Make(width, height)

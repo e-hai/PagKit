@@ -38,6 +38,12 @@ expect open class PagComposition : PagLayer {
     /** 按图层名称匹配子图层列表 */
     fun getLayersByName(name: String): List<PagLayer>
 
+    /** 获取动画内嵌的音频二进制数据 (AAC in MPEG-4)，若无音频则返回 null */
+    fun audioBytes(): ByteArray?
+
+    /** 获取首帧音频在动画时间轴上的起始播放时间（微秒） */
+    fun audioStartTime(): Long
+
     companion object {
         /** 创建指定宽高的空合成容器 */
         fun make(width: Int, height: Int): PagComposition

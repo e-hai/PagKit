@@ -2,6 +2,8 @@
 
 package io.github.pagkit.composition
 
+import kotlinx.cinterop.addressOf
+import kotlinx.cinterop.usePinned
 import org.libpag.ios.PAGComposition
 import platform.CoreGraphics.CGSizeMake
 
@@ -61,6 +63,21 @@ actual open class PagComposition internal constructor(
     actual fun getLayersByName(name: String): List<PagLayer> {
         val layers = nativeComposition.getLayersByName(name) as? List<org.libpag.ios.PAGLayer> ?: return emptyList()
         return layers.map { PagLayer(it) }
+    }
+
+    actual fun audioBytes(): ByteArray? {
+        val data = nativeComposition.audioBytes() ?: return null
+        val length = data.length.toInt()
+        if (length == 0) return ByteArray(0)
+        val bytes = ByteArray(length)
+        bytes.usePinned { pinned ->
+            platform.posix.memcpy(pinned.addressOf(0), data.bytes, data.length)
+        }
+        return bytes
+    }
+
+    actual fun audioStartTime(): Long {
+        return nativeComposition.audioStartTime()
     }
 
     actual companion object {
