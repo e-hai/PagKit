@@ -145,7 +145,7 @@ Always run these verification commands before delivering code modifications:
 
 # 4. Build iOS Xcode Project
 cd sample/iosApp && xcodegen generate
-xcodebuild -project iosApp.xcodeproj -scheme iosApp -destination 'generic/platform=iOS Simulator' build CODE_SIGNING_ALLOWED=NO
+xcodebuild -project iosApp.xcodeproj -scheme iosApp -destination 'platform=iOS Simulator,name=iPhone 17 Pro' build CODE_SIGNING_ALLOWED=NO
 
 # 5. Dry-run publish to local Maven
 ./gradlew :pagkit:publishToMavenLocal

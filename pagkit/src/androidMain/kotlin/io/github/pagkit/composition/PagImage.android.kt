@@ -1,5 +1,6 @@
 package io.github.pagkit.composition
 
+import android.graphics.Bitmap
 import io.github.pagkit.model.PagScaleMode
 import org.libpag.PAGImage
 
@@ -24,6 +25,14 @@ actual class PagImage internal constructor(internal val nativeImage: PAGImage) {
 
         actual fun fromBytes(bytes: ByteArray): PagImage? {
             val img = PAGImage.FromBytes(bytes) ?: return null
+            return PagImage(img)
+        }
+
+        /**
+         * Android 平台原生扩展：直接从 [Bitmap] 构造 [PagImage]，实现零拷贝图元替换。
+         */
+        fun fromBitmap(bitmap: Bitmap): PagImage? {
+            val img = PAGImage.FromBitmap(bitmap) ?: return null
             return PagImage(img)
         }
     }

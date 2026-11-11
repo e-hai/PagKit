@@ -209,9 +209,12 @@ fun DynamicEditDemo(pagBytes: ByteArray) {
                 )
             }
 
-            // 2. 动态替换图片占位
+            // 2. 动态替换图片占位（支持 commonMain 跨平台及两端原生直接替换）
             if (pagFile.numImages > 0) {
+                // 通用跨平台方式：从绝对路径或 ByteArray 二进制构建
                 val newImage = PagImage.fromPath("/data/user/0/avatar.png")
+                // Android 原生扩展：PagImage.fromBitmap(bitmap)
+                // iOS 原生扩展：PagImage.fromUIImage(uiImage) / PagImage.fromCGImage(cgImage)
                 pagFile.replaceImage(0, newImage)
             }
 
